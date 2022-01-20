@@ -94,7 +94,7 @@ nav {
   gap: 2rem;
 
   /* NOTE This creates the fade in/out anumation */
-  opacity: 0;
+  /* opacity: 0; */
   transition: all 1s;
 }
 
@@ -180,7 +180,8 @@ nav {
   font-size: 1.2rem;
   font-weight: 500;
   text-transform: uppercase;
-  margin-right: 0.8rem;
+  margin-right: 0.5rem;
+  margin-top: 0.8rem;
 }
 
 .summary__value {
@@ -296,6 +297,29 @@ h2 {
   font-weight: 600;
 }
 
+/* chart section */
+#chart {
+  max-width: 100rem;
+  margin: auto;
+}
+
+.chart--wrap {
+  height: 200px;
+  background-color: #fff;
+  border-radius: 1rem;
+}
+
+.chart--summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+}
+.chart--summary div {
+  display: flex;
+  justify-content: space-between;
+}
+
 footer {
   text-align: center;
 }
@@ -318,9 +342,6 @@ footer {
     display: block;
     width: 100%;
   }
-  .summary {
-    display: block;
-  }
   .logout-timer,
   footer {
     text-align: center;
@@ -333,6 +354,13 @@ footer {
     margin: auto;
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+  .chart--summary {
+    display: block;
+  }
+  .summary__value {
+    margin-right: 0.1rem;
+    font-size: 2rem;
   }
 }
 
