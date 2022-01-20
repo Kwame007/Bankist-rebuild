@@ -304,7 +304,8 @@ h2 {
 }
 
 .chart--wrap {
-  height: 200px;
+  /* height: 200px; */
+  padding: 2rem;
   background-color: #fff;
   border-radius: 1rem;
 }
@@ -322,6 +323,9 @@ h2 {
 
 footer {
   text-align: center;
+}
+.show {
+  display: none;
 }
 
 /* added some media queries for mobile responsiveness */

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- chart js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <link rel="shortcut icon" type="image/png" href="/icon.png" />
 
     <link
@@ -109,7 +111,12 @@
     </main>
     <!-- chart section -->
     <section id="chart">
-      <div class="chart--wrap"></div>
+      <div
+        class="chart--wrap"
+        style="position: relative; height: auto; width: 100%"
+      >
+        <canvas id="myChart" width="200" height="200"></canvas>
+      </div>
       <!-- summary -->
       <div class="chart--summary">
         <div>
