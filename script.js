@@ -385,3 +385,7 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 
 // TODO: IMPLEMENT LOCAL STORAGE, CREATE ACCOUNT (INITIAL DEPOSIT),ACCOUNT CHART
+// ACCOUNT CHART (done)
+
+// NEXT: CREATE ACCOUNT FEATURE
+// 1. Generate dynamic user data for accounts object
