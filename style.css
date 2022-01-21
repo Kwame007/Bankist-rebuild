@@ -370,3 +370,17 @@ footer {
     margin-right: 0;
   }
 }
+
+.show {
+  display: block;
+  max-width: 100rem;
+  margin: auto;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 0.7rem;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
