@@ -88,13 +88,13 @@ nav {
   position: relative;
   max-width: 100rem;
   margin: 4rem auto;
-  display: grid;
+  /* display: grid; */
   grid-template-columns: 4fr 3fr;
   grid-template-rows: auto repeat(3, 15rem) auto;
   gap: 2rem;
 
   /* NOTE This creates the fade in/out anumation */
-  opacity: 0;
+  display: none;
   transition: all 1s;
 }
 
@@ -301,7 +301,7 @@ h2 {
 #chart {
   max-width: 100rem;
   margin: auto;
-  opacity: 0;
+  display: none;
   transition: all 1s;
 }
 
@@ -325,7 +325,7 @@ h2 {
 
 footer {
   text-align: center;
-  opacity: 0;
+  display: none;
   transition: all 1s;
 }
 

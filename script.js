@@ -258,10 +258,10 @@ btnLogin.addEventListener('click', function (e) {
     }, 3000);
 
     // show content
-    containerApp.style.opacity = '100';
+    containerApp.style.display = 'grid';
 
-    document.querySelector('#chart').style.opacity = '100';
-    document.querySelector('footer').style.opacity = '100';
+    document.querySelector('#chart').style.display = 'block';
+    document.querySelector('footer').style.display = 'block';
 
     // call update UI with current account
     updateUI(currentAccount);
