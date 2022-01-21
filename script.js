@@ -107,6 +107,30 @@ const chartConfig = {
 
 const movsChart = new Chart(ctx, chartConfig);
 
+// show meassage
+const showMessage = function (className, message) {
+  // create message div
+  const messageDiv = document.createElement('div');
+
+  // select parent element
+
+  const childElement = document.createElement('p');
+  const childElements = document.querySelector('.app');
+  const parentElement = childElements.parentNode;
+
+  childElement.textContent = `${message}`;
+
+  // set class name
+  messageDiv.className = `${className}`;
+
+  // create text node
+  messageDiv.appendChild(childElement);
+
+  // insert in DOM
+  parentElement.insertBefore(messageDiv, childElements);
+  console.log(messageDiv);
+};
+// showMessage('success', 'welcome');
 // display movements function
 const displayMovement = function (movements, sort = false) {
   // clear movement container
@@ -227,8 +251,17 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     } 😊`;
 
+    showMessage(`success`, `Login Successful ✅... Welcome Back 🖖🏼`);
+
+    setTimeout(() => {
+      document.querySelector('.success').remove();
+    }, 3000);
+
     // show content
     containerApp.style.opacity = '100';
+
+    document.querySelector('#chart').style.opacity = '100';
+    document.querySelector('footer').style.opacity = '100';
 
     // call update UI with current account
     updateUI(currentAccount);
@@ -239,7 +272,16 @@ btnLogin.addEventListener('click', function (e) {
     // update chart and config object
     updateChartConfig(movsChart, currentAccount);
   } else {
-    console.log('no');
+    showMessage(`error`, `Login Failed ❌... Try Again`);
+
+    setTimeout(() => {
+      document.querySelector('.error').remove();
+    }, 3000);
+
+    // clear login form
+    inputLoginUsername.value = inputLoginPin.value = '';
+
+    console.log('wrong credentials');
   }
 });
 

@@ -94,7 +94,7 @@ nav {
   gap: 2rem;
 
   /* NOTE This creates the fade in/out anumation */
-  /* opacity: 0; */
+  opacity: 0;
   transition: all 1s;
 }
 
@@ -301,6 +301,8 @@ h2 {
 #chart {
   max-width: 100rem;
   margin: auto;
+  opacity: 0;
+  transition: all 1s;
 }
 
 .chart--wrap {
@@ -323,6 +325,8 @@ h2 {
 
 footer {
   text-align: center;
+  opacity: 0;
+  transition: all 1s;
 }
 
 /* added some media queries for mobile responsiveness */
@@ -371,12 +375,13 @@ footer {
   }
 }
 
-.show {
+.error {
   display: block;
   max-width: 100rem;
   margin: auto;
   text-align: center;
-  border: 1px solid;
+  color: #ffff;
+  background: linear-gradient(to top left, #ff4848, #ff585f);
   border-radius: 0.7rem;
   font-size: 15px;
   font-weight: bold;
@@ -384,3 +389,22 @@ footer {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+
+.success {
+  display: block;
+  max-width: 100rem;
+  margin: auto;
+  text-align: center;
+  color: #ffff;
+  background: linear-gradient(to top left, #77e4d4, #9be15d);
+  border-radius: 0.7rem;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+/* 
+.hide {
+  display: none;
+} */
