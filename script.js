@@ -245,7 +245,7 @@ btnLogin.addEventListener('click', function (e) {
     acc => acc.username === inputLoginUsername.value
   );
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     // show welcome message
     labelWelcome.textContent = `Welcome Back ${
       currentAccount.owner.split(' ')[0]
@@ -293,7 +293,7 @@ btnTransfer.addEventListener('click', function (e) {
   const receiverAccount = accounts.find(
     acc => acc.username === inputTransferTo.value
   );
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
 
   if (
     amount > 0 &&
@@ -320,7 +320,7 @@ btnTransfer.addEventListener('click', function (e) {
 // request loan
 inputForm.addEventListener('click', function (e) {
   e.preventDefault();
-  const loanAmount = Number(inputLoanAmount.value);
+  const loanAmount = +inputLoanAmount.value;
 
   // check if any amount of current account greater than 10%
   if (
@@ -347,7 +347,7 @@ btnClose.addEventListener('click', function (e) {
   // check if credentials are correct
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const deletAccount = confirm('Are you sure');
     if (deletAccount) {
@@ -389,3 +389,16 @@ btnSort.addEventListener('click', function (e) {
 
 // NEXT: CREATE ACCOUNT FEATURE
 // 1. Generate dynamic user data for accounts object
+
+// for (let i = 0; i <= 10; i++) {
+//   console.log(i);
+// }
+let num = 1;
+console.log(num++);
+console.log(++num);
+
+console.log(num);
+console.log(1 === 1);
+console.log(12 == '12');
+console.log(12 === '12');
+console.log(true || false);
