@@ -10,6 +10,18 @@ const account1 = {
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT', // de-DE
 };
 
 const account2 = {
@@ -17,6 +29,18 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT', // de-DE
 };
 
 const account3 = {
@@ -24,6 +48,18 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT', // de-DE
 };
 
 const account4 = {
@@ -31,6 +67,18 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  movementsDates: [
+    '2019-11-18T21:31:17.178Z',
+    '2019-12-23T07:42:02.383Z',
+    '2020-01-28T09:15:04.904Z',
+    '2020-04-01T10:17:24.185Z',
+    '2020-05-08T14:11:59.604Z',
+    '2020-05-27T17:01:17.194Z',
+    '2020-07-11T23:36:17.929Z',
+    '2020-07-12T10:51:36.790Z',
+  ],
+  currency: 'EUR',
+  locale: 'pt-PT', // de-DE
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -132,29 +180,45 @@ const showMessage = function (className, message) {
 };
 // showMessage('success', 'welcome');
 // display movements function
-const displayMovement = function (movements, sort = false) {
+const displayMovement = function (account, sort = false) {
   // clear movement container
   containerMovements.innerHTML = '';
 
   // sort
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
 
   // loop through movements
   movs.forEach((mov, index) => {
     // check movement type (deposit or withdrawal)
     const movementType = mov > 0 ? 'deposit' : 'withdrawal';
+
+    // TODO:IMPLEMENT DYNAMIC DATES
+    // loop through static dates array
+
+    const now = new Date(account.movementsDates[index]);
+
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    const year = `${now.getFullYear()}`;
+
+    // update movements date
+    const displayDate = `${day}/${month}/${year}`;
+
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${movementType}">${
       index + 1
     } ${movementType}</div>
-        <div class="movements__value">${Math.abs(mov)} $</div>
+        <div class="movements__date">${displayDate}</div>
+        <div class="movements__value">${mov.toFixed(2)} $</div>
     </div>
     `;
 
     // append to DOM
     containerMovements.insertAdjacentHTML('afterbegin', html);
-  });
+  }); 
 };
 
 // calculate balance function
@@ -173,7 +237,7 @@ const calculateSummary = function (accounts) {
     .reduce((acc, cur) => acc + cur);
 
   //  append label interest
-  labelSumIn.textContent = `${income} $`;
+  labelSumIn.textContent = `${income.toFixed(2)} $`;
 
   // out
   const moneyOut = accounts.movements
@@ -181,7 +245,7 @@ const calculateSummary = function (accounts) {
     .reduce((acc, cur) => acc + cur);
 
   //  append label interest
-  labelSumOut.textContent = `${Math.abs(moneyOut)} $`;
+  labelSumOut.textContent = `${Math.abs(moneyOut).toFixed(2)} $`;
   // interest
   const interest = accounts.movements
     .filter(acc => acc > 0)
@@ -192,7 +256,7 @@ const calculateSummary = function (accounts) {
   labelSumInterest.textContent = `${interest.toFixed(2)} $`;
 };
 
-// create user
+// create user function
 const createUser = function (account) {
   // loop through accounts array
   account.forEach(acc => {
@@ -208,7 +272,7 @@ createUser(accounts);
 // update UI function
 const updateUI = function (account) {
   // display movements
-  displayMovement(account.movements);
+  displayMovement(account);
 
   // display summary
   calculateBalance(account);
@@ -218,24 +282,39 @@ const updateUI = function (account) {
   console.log(account);
 };
 
+// update function configurations with movements data
 const updateChartConfig = function (movsChart, account) {
   movsChart.data.labels = createChartLabel(account);
   movsChart.data.datasets[0].data = [...account.movements];
-  // movsChart.data.datasets[0].fill = false;
+
   movsChart.data.datasets[0].backgroundColor = account.movements.map(acc =>
     acc > 0 ? 'rgb(47, 221, 146)' : 'rgb(255, 99, 99)'
   );
+
   movsChart.data.datasets[0].borderColor = account.movements.map(acc =>
     acc > 0 ? 'rgb(47, 221, 146)' : 'rgb(255, 99, 99)'
   );
 
   movsChart.options.scales.y.beginAtZero = true;
-  // movsChart.resize('500', '500');
   movsChart.update();
 };
 
 // login event
 let currentAccount;
+
+// implement date feature for current balance
+const now = Date.now();
+const currentBalanceDate = new Date(now);
+
+// get specific parts of date
+const day = `${currentBalanceDate.getDate()}`.padStart(2, 0);
+const month = `${currentBalanceDate.getMonth() + 1}`.padStart(2, 0);
+const year = currentBalanceDate.getFullYear();
+const hour = `${currentBalanceDate.getHours()}`.padStart(2, 0);
+const minutes = `${currentBalanceDate.getMinutes()}`.padStart(2, 0);
+
+// update label date text content
+labelDate.textContent = `${day}/${month}/${year},${hour}:${minutes}`;
 
 btnLogin.addEventListener('click', function (e) {
   // prevent form from submitting
@@ -320,7 +399,7 @@ btnTransfer.addEventListener('click', function (e) {
 // request loan
 inputForm.addEventListener('click', function (e) {
   e.preventDefault();
-  const loanAmount = +inputLoanAmount.value;
+  const loanAmount = Math.floor(inputLoanAmount.value);
 
   // check if any amount of current account greater than 10%
   if (
@@ -389,16 +468,3 @@ btnSort.addEventListener('click', function (e) {
 
 // NEXT: CREATE ACCOUNT FEATURE
 // 1. Generate dynamic user data for accounts object
-
-// for (let i = 0; i <= 10; i++) {
-//   console.log(i);
-// }
-let num = 1;
-console.log(num++);
-console.log(++num);
-
-console.log(num);
-console.log(1 === 1);
-console.log(12 == '12');
-console.log(12 === '12');
-console.log(true || false);
