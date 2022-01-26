@@ -556,12 +556,14 @@ btnClose.addEventListener('click', function (e) {
 });
 
 let sorted = false;
+
+
 // sort
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
-  displayMovement(currentAccount.movements, !sorted);
+  displayMovement(currentAccount, !sorted);
   sorted = !sorted;
-
+  console.log(currentAccount.movements);
   // sorted one way (ascending order)
   currentAccount.movements = sorted
     ? currentAccount.movements.sort((a, b) => b - a)
