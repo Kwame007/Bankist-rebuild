@@ -2,86 +2,12 @@
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-// BANKIST APP
+// BANKIST APP Rebuild 👷🏽‍♂️😎
 
 // Data
-const account1 = {
-  owner: 'Jonas Schmedtmann',
-  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
-  interestRate: 1.2, // %
-  pin: 1111,
-  movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2022-01-21T10:17:24.185Z',
-    '2022-01-22T14:11:59.604Z',
-    '2022-01-23T17:01:17.194Z',
-    '2022-01-24T23:36:17.929Z',
-    '2022-01-25T10:51:36.790Z',
-  ],
-  currency: 'EUR',
-  locale: 'en-US', // de-DE
-};
-
-const account2 = {
-  owner: 'Jessica Davis',
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-  interestRate: 1.5,
-  pin: 2222,
-  movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2022-01-21T10:17:24.185Z',
-    '2022-01-22T14:11:59.604Z',
-    '2022-01-23T17:01:17.194Z',
-    '2022-01-24T23:36:17.929Z',
-    '2022-01-25T10:51:36.790Z',
-  ],
-  currency: 'EUR',
-  locale: 'pt-PT', // de-DE
-};
-
-const account3 = {
-  owner: 'Steven Thomas Williams',
-  movements: [200, -200, 340, -300, -20, 50, 400, -460],
-  interestRate: 0.7,
-  pin: 3333,
-  movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2022-01-21T10:17:24.185Z',
-    '2022-01-22T14:11:59.604Z',
-    '2022-01-23T17:01:17.194Z',
-    '2022-01-24T23:36:17.929Z',
-    '2022-01-25T10:51:36.790Z',
-  ],
-  currency: 'EUR',
-  locale: 'en-GB', // de-DE
-};
-
-const account4 = {
-  owner: 'Sarah Smith',
-  movements: [430, 1000, 700, 50, 90],
-  interestRate: 1,
-  pin: 4444,
-  movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2022-01-21T10:17:24.185Z',
-    '2022-01-22T14:11:59.604Z',
-    '2022-01-23T17:01:17.194Z',
-    '2022-01-24T23:36:17.929Z',
-    '2022-01-25T10:51:36.790Z',
-  ],
-  currency: 'EUR',
-  locale: 'en-CA', // de-DE
-};
-
-const accounts = [account1, account2, account3, account4];
+let account = {};
+const newAccounts = [];
+const accountForm = document.querySelector('#account-form');
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -112,24 +38,16 @@ const inputForm = document.querySelector('.form--loan');
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-// LECTURES
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-  ['GHS', 'Ghana Cedis'],
-]);
 
 // create chart label
 const createChartLabel = function (account) {
   return account.movements.map(acc => (acc > 0 ? 'deposit' : 'withdrawal'));
 };
 
-// chart
+// select chart element
 const ctx = document.getElementById('myChart');
 
-// chart config
+// chart configuration
 const chartConfig = {
   type: 'bar',
   data: {
@@ -153,12 +71,14 @@ const chartConfig = {
   },
 };
 
+// instantiate new chart object
 const movsChart = new Chart(ctx, chartConfig);
 
-// format date function
+// calculate days passed function
 const calcDaysPassed = (date1, date2) =>
   Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
+// format movements date function
 const formatMovementsDates = function (date, locale) {
   const daysPassed = calcDaysPassed(new Date(), date);
 
@@ -166,20 +86,15 @@ const formatMovementsDates = function (date, locale) {
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
 
-  // const day = `${date.getDate()}`.padStart(2, 0);
-  // const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  // const year = date.getFullYear();
-
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
-// show meassage
+// show meassage function
 const showMessage = function (className, message) {
   // create message div
   const messageDiv = document.createElement('div');
 
   // select parent element
-
   const childElement = document.createElement('p');
   const childElements = document.querySelector('.app');
   const parentElement = childElements.parentNode;
@@ -194,10 +109,9 @@ const showMessage = function (className, message) {
 
   // insert in DOM
   parentElement.insertBefore(messageDiv, childElements);
-  console.log(messageDiv);
 };
 
-// format currency
+// format currency function
 const formatCurrency = function (value, locale, currency) {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -209,7 +123,8 @@ const formatCurrency = function (value, locale, currency) {
 const displayMovement = function (account, sort = false) {
   // clear movement container
   containerMovements.innerHTML = '';
-  // sort
+
+  // sorted movements
   const movs = sort
     ? account.movements.slice().sort((a, b) => a - b)
     : account.movements;
@@ -222,12 +137,12 @@ const displayMovement = function (account, sort = false) {
 
     // TODO:IMPLEMENT DYNAMIC DATES
 
-    // loop through static dates array
+    // loop through movementsDates array
     const date = new Date(account.movementsDates[index]);
     const displayDate = formatMovementsDates(date, account.locale);
 
     // formatted movements
-    const formattedMovs = formatCurrency(mov, account.locale, account.currency);
+    const formatMovs = formatCurrency(mov, account.locale, account.currency);
 
     const html = `
       <div class="movements__row">
@@ -235,7 +150,7 @@ const displayMovement = function (account, sort = false) {
       index + 1
     } ${movementType}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${formattedMovs} $</div>
+        <div class="movements__value">${formatMovs}</div>
     </div>
     `;
 
@@ -246,10 +161,10 @@ const displayMovement = function (account, sort = false) {
 
 // calculate balance function
 const calculateBalance = function (account) {
+  // create balance property in account object
   account.balance = account.movements.reduce((acc, cur) => acc + cur);
-  console.log(account.balance);
-  console.log(currentAccount);
-  // display balance
+
+  // display account balance
   labelBalance.textContent = formatCurrency(
     account.balance,
     account.locale,
@@ -259,7 +174,7 @@ const calculateBalance = function (account) {
 
 // calculate summary function
 const calculateSummary = function (accounts) {
-  // income
+  // income variable
   const income = accounts.movements
     .filter(acc => acc > 0)
     .reduce((acc, cur) => acc + cur, 0);
@@ -271,7 +186,7 @@ const calculateSummary = function (accounts) {
     accounts.currency
   );
 
-  // out
+  // money out variable
   const moneyOut = accounts.movements
     .filter(acc => acc < 0)
     .reduce((acc, cur) => acc + cur, 0);
@@ -296,23 +211,11 @@ const calculateSummary = function (accounts) {
   );
 };
 
-// create user function
+// create new account user function
 const createUser = function (account) {
   // loop through accounts array
   account.forEach(acc => {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map(name => name[0])
-      .join('');
-  });
-};
-createUser(accounts);
-
-// new code
-const createUser2 = function (account) {
-  // loop through accounts array
-  account.forEach(acc => {
+    // create username property in accounts object
     acc.username = acc.owner
       .toLowerCase()
       .split(' ')
@@ -323,64 +226,82 @@ const createUser2 = function (account) {
 
 // update UI function
 const updateUI = function (account) {
-  // display movements
+  // call display movements
   displayMovement(account);
 
-  // display summary
+  // call display summary
   calculateBalance(account);
 
-  // display summary
+  // call display summary
   calculateSummary(account);
   console.log(account);
 };
 
+// update chart configurations function
 // update function configurations with movements data
 const updateChartConfig = function (movsChart, account) {
+  // set new data.labels value
   movsChart.data.labels = createChartLabel(account);
+
+  // set new datasets value
   movsChart.data.datasets[0].data = [...account.movements];
 
+  // set new datasets background value
   movsChart.data.datasets[0].backgroundColor = account.movements.map(acc =>
     acc > 0 ? 'rgb(47, 221, 146)' : 'rgb(255, 99, 99)'
   );
 
+  // set new datasets border color value
   movsChart.data.datasets[0].borderColor = account.movements.map(acc =>
     acc > 0 ? 'rgb(47, 221, 146)' : 'rgb(255, 99, 99)'
   );
 
   movsChart.options.scales.y.beginAtZero = true;
+
+  // update chart
   movsChart.update();
 };
 
 // timer function
 const startLogoutTimer = function () {
-  // set time to 5min
-  let time = 120;
+  // set time(time in seconds) to 10min
+  let time = 600;
 
   // ticking timer function
   const tick = () => {
-    // convert to minutes
+    // convert time to minutes
     const minutes = `${Math.trunc(time / 60)}`.padStart(2, 0);
+
+    // convert time to seconds
     const seconds = `${time % 60}`.padStart(2, 0);
+
     // in each call print remaining time
     labelTimer.textContent = `${minutes}:${seconds}`;
 
-    // stop timer
-    if (time < 0) {
+    // stop timer if true
+    if (time <= 0) {
       clearInterval(timer);
 
       // Display UI and message
       labelWelcome.textContent = `Login to get started`;
 
       // when 0 seconds, stop timer log user out
+
+      // set containerApp to display none
       containerApp.style.display = 'none';
+
+      // set chart to display none
       document.querySelector('#chart').style.display = 'none';
+
+      // set footer to display none
       document.querySelector('footer').style.display = 'none';
     }
+
     // decrease time
     time--;
   };
 
-  // call tick immediatley
+  // call tick immediatley we call startLogoutTimer
   tick();
   // call timer every 1 second
   const timer = setInterval(tick, 1000);
@@ -389,13 +310,14 @@ const startLogoutTimer = function () {
   return timer;
 };
 
-// login event
+// login event handler
 let currentAccount, timer;
 
 btnLogin.addEventListener('click', function (e) {
   // prevent form from submitting
   e.preventDefault();
 
+  // set current account value
   currentAccount = newAccounts.find(
     acc => acc.username === inputLoginUsername.value
   );
@@ -444,7 +366,10 @@ btnLogin.addEventListener('click', function (e) {
 
     // check if timer value exists with previous logins and clear them
     if (timer) clearInterval(timer);
+
+    // set current timer to startLogoutTimer function call
     timer = startLogoutTimer();
+
     // call update UI with current account
     updateUI(currentAccount);
 
@@ -453,9 +378,14 @@ btnLogin.addEventListener('click', function (e) {
 
     // update chart and config object
     updateChartConfig(movsChart, currentAccount);
+
+    console.log(currentAccount);
+    console.log(newAccounts);
   } else {
+    // show error message if login not successfull
     showMessage(`error`, `Login Failed ❌... Try Again`);
 
+    // remove error div from DOM after 3 seconds
     setTimeout(() => {
       document.querySelector('.error').remove();
     }, 3000);
@@ -467,16 +397,22 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
-// transfer event
+// transfer event handler
 btnTransfer.addEventListener('click', function (e) {
   // prevent form from submitting
   e.preventDefault();
 
-  const receiverAccount = accounts.find(
+  // set receiverAccount value
+  const receiverAccount = newAccounts.find(
     acc => acc.username === inputTransferTo.value
   );
+
   const amount = +inputTransferAmount.value;
 
+  // check if transfer amount >0
+  // check if receiverAccount !== undifined
+  // check if currentAccount.balance is at least greater than transfer ampunt
+  // check if currentAccount?.username is not equal to the receiverAccount's username
   if (
     amount > 0 &&
     receiverAccount &&
@@ -507,12 +443,15 @@ btnTransfer.addEventListener('click', function (e) {
   inputTransferAmount.value = inputTransferTo.value = '';
 });
 
-// request loan
+// request loan event handler
 inputForm.addEventListener('click', function (e) {
+  // prevent form submit
   e.preventDefault();
+
   const loanAmount = Math.floor(inputLoanAmount.value);
 
-  // check if any amount of current account greater than 10%
+  // check if transfer amount >0ß
+  // check if any amount of current account is greater than 10% of the amount requested
   if (
     loanAmount > 0 &&
     currentAccount.movements.some(amount => amount >= amount / 10)
@@ -553,12 +492,12 @@ btnClose.addEventListener('click', function (e) {
     const deletAccount = confirm('Are you sure');
     if (deletAccount) {
       // find index
-      const index = accounts.findIndex(
+      const index = newAccounts.findIndex(
         acc => acc.username === currentAccount.username
       );
 
       // delete current account from accounts array
-      accounts.splice(index, 1);
+      newAccounts.splice(index, 1);
 
       // show content
       containerApp.style.opacity = '0';
@@ -566,6 +505,8 @@ btnClose.addEventListener('click', function (e) {
   }
   // clear input fields
   inputCloseUsername.value = inputClosePin.value = '';
+
+  console.log(newAccounts);
 });
 
 let sorted = false;
@@ -589,13 +530,10 @@ btnSort.addEventListener('click', function (e) {
 // TODO: IMPLEMENT LOCAL STORAGE, CREATE ACCOUNT (INITIAL DEPOSIT),ACCOUNT CHART
 // ACCOUNT CHART (done)
 
-let account = {};
-const newAccounts = [];
 // NEXT: CREATE ACCOUNT FEATURE
 // 1. Generate dynamic user data for accounts object
 
-const accountForm = document.querySelector('#account-form');
-
+// create new user account function
 const createAccount = function (e) {
   e.preventDefault();
 
@@ -607,25 +545,26 @@ const createAccount = function (e) {
   // check if form is empty ? return
   if (!userName || !userPin || !initialDeposit) return;
 
+  // check if names in array is at least two
+  //check if length of pin is 4 exactly
+  // check if initial deposit amount is at least 100
   if (
     userName.split(' ').length >= 2 &&
     userPin.length === 4 &&
     initialDeposit >= 100
   ) {
-    // create movements and movementDates array
+    // create movements and movementDates variables and assign to empty array
     let movementsArr = [];
     let movementsDatesArr = [];
 
     // current date
     const currentDate = new Date();
-    // const day = currentDate.getDate();
-    // const month = currentDate.getMonth() + 1;
-    // const year = currentDate.getFullYear();
 
-    // set array values
+    // push initial deposit into movementsArr and push current date into movementsDates array
     movementsArr.push(+initialDeposit);
     movementsDatesArr.push(currentDate.toISOString());
 
+    // create accounts properties and values (key ⇉ value pairs)
     account.owner = userName;
     account.movements = movementsArr;
     account.movementsDates = movementsDatesArr;
@@ -634,12 +573,18 @@ const createAccount = function (e) {
     account.locale = navigator.language;
     account.currency = 'EUR';
 
-    // return account object
+    // add new user object to newAccounts array
     newAccounts.push(account);
-    createUser2(newAccounts);
+
+    // create new user
+    createUser(newAccounts);
+
+    // set account object to empty after account created
+    account = {};
 
     console.log(newAccounts);
   }
 };
 
+// create new user account on form submit
 accountForm.addEventListener('submit', createAccount);
