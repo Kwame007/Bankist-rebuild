@@ -156,10 +156,10 @@ const chartConfig = {
 const movsChart = new Chart(ctx, chartConfig);
 
 // format date function
-const formatMovementsDates = function (date, locale) {
-  const calcDaysPassed = (date1, date2) =>
-    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+const calcDaysPassed = (date1, date2) =>
+  Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
+const formatMovementsDates = function (date, locale) {
   const daysPassed = calcDaysPassed(new Date(), date);
 
   if (daysPassed === 0) return 'Today';
@@ -209,7 +209,6 @@ const formatCurrency = function (value, locale, currency) {
 const displayMovement = function (account, sort = false) {
   // clear movement container
   containerMovements.innerHTML = '';
-
   // sort
   const movs = sort
     ? account.movements.slice().sort((a, b) => a - b)
@@ -219,6 +218,7 @@ const displayMovement = function (account, sort = false) {
   movs.forEach((mov, index) => {
     // check movement type (deposit or withdrawal)
     const movementType = mov > 0 ? 'deposit' : 'withdrawal';
+    console.log(currentAccount);
 
     // TODO:IMPLEMENT DYNAMIC DATES
 
@@ -246,8 +246,9 @@ const displayMovement = function (account, sort = false) {
 
 // calculate balance function
 const calculateBalance = function (account) {
-  account.balance = account.movements.reduce((acc, cur) => acc + cur, 0);
-
+  account.balance = account.movements.reduce((acc, cur) => acc + cur);
+  console.log(account.balance);
+  console.log(currentAccount);
   // display balance
   labelBalance.textContent = formatCurrency(
     account.balance,
@@ -261,7 +262,7 @@ const calculateSummary = function (accounts) {
   // income
   const income = accounts.movements
     .filter(acc => acc > 0)
-    .reduce((acc, cur) => acc + cur);
+    .reduce((acc, cur) => acc + cur, 0);
 
   //  append label interest
   labelSumIn.textContent = formatCurrency(
@@ -273,7 +274,7 @@ const calculateSummary = function (accounts) {
   // out
   const moneyOut = accounts.movements
     .filter(acc => acc < 0)
-    .reduce((acc, cur) => acc + cur);
+    .reduce((acc, cur) => acc + cur, 0);
 
   //  append label interest
   labelSumOut.textContent = formatCurrency(
@@ -285,7 +286,7 @@ const calculateSummary = function (accounts) {
   const interest = accounts.movements
     .filter(acc => acc > 0)
     .map(acc => (acc * accounts.interestRate) / 100)
-    .reduce((acc, cur) => acc + cur);
+    .reduce((acc, cur) => acc + cur, 0);
 
   //  append label interest
   labelSumInterest.textContent = formatCurrency(
@@ -307,6 +308,18 @@ const createUser = function (account) {
   });
 };
 createUser(accounts);
+
+// new code
+const createUser2 = function (account) {
+  // loop through accounts array
+  account.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
 
 // update UI function
 const updateUI = function (account) {
@@ -383,7 +396,7 @@ btnLogin.addEventListener('click', function (e) {
   // prevent form from submitting
   e.preventDefault();
 
-  currentAccount = accounts.find(
+  currentAccount = newAccounts.find(
     acc => acc.username === inputLoginUsername.value
   );
 
@@ -392,7 +405,7 @@ btnLogin.addEventListener('click', function (e) {
     labelWelcome.textContent = `Welcome Back ${
       currentAccount.owner.split(' ')[0]
     } 😊`;
-
+    console.log(currentAccount);
     // CREATE CURRENT DATE
 
     // implement date feature for current balance
@@ -557,7 +570,6 @@ btnClose.addEventListener('click', function (e) {
 
 let sorted = false;
 
-
 // sort
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
@@ -577,5 +589,57 @@ btnSort.addEventListener('click', function (e) {
 // TODO: IMPLEMENT LOCAL STORAGE, CREATE ACCOUNT (INITIAL DEPOSIT),ACCOUNT CHART
 // ACCOUNT CHART (done)
 
+let account = {};
+const newAccounts = [];
 // NEXT: CREATE ACCOUNT FEATURE
 // 1. Generate dynamic user data for accounts object
+
+const accountForm = document.querySelector('#account-form');
+
+const createAccount = function (e) {
+  e.preventDefault();
+
+  //  select form elements
+  const userName = document.querySelector('#user-name').value;
+  const userPin = document.querySelector('#user-pin').value;
+  const initialDeposit = document.querySelector('#initial-deposit').value;
+
+  // check if form is empty ? return
+  if (!userName || !userPin || !initialDeposit) return;
+
+  if (
+    userName.split(' ').length >= 2 &&
+    userPin.length === 4 &&
+    initialDeposit >= 100
+  ) {
+    // create movements and movementDates array
+    let movementsArr = [];
+    let movementsDatesArr = [];
+
+    // current date
+    const currentDate = new Date();
+    // const day = currentDate.getDate();
+    // const month = currentDate.getMonth() + 1;
+    // const year = currentDate.getFullYear();
+
+    // set array values
+    movementsArr.push(+initialDeposit);
+    movementsDatesArr.push(currentDate.toISOString());
+
+    account.owner = userName;
+    account.movements = movementsArr;
+    account.movementsDates = movementsDatesArr;
+    account.interestRate = 0.7;
+    account.pin = +userPin;
+    account.locale = navigator.language;
+    account.currency = 'EUR';
+
+    // return account object
+    newAccounts.push(account);
+    createUser2(newAccounts);
+
+    console.log(newAccounts);
+  }
+};
+
+accountForm.addEventListener('submit', createAccount);
