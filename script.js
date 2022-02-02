@@ -38,6 +38,7 @@ const inputForm = document.querySelector('.form--loan');
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+// TODO: ACCOUNT CHART
 
 // create chart label
 const createChartLabel = function (account) {
@@ -135,8 +136,9 @@ const displayMovement = function (account, sort = false) {
     const movementType = mov > 0 ? 'deposit' : 'withdrawal';
     console.log(currentAccount);
 
-    // TODO:IMPLEMENT DYNAMIC DATES
-
+    /*
+   TODO: IMPLEMENT DYNAMIC DATES
+   */
     // loop through movementsDates array
     const date = new Date(account.movementsDates[index]);
     const displayDate = formatMovementsDates(date, account.locale);
@@ -343,8 +345,6 @@ btnLogin.addEventListener('click', function (e) {
       // weekdays: 'long',
     };
 
-    // update label date text content using INTl.DateFormater()
-    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
     labelDate.textContent = new Intl.DateTimeFormat(
       currentAccount.locale,
       options
@@ -409,10 +409,13 @@ btnTransfer.addEventListener('click', function (e) {
 
   const amount = +inputTransferAmount.value;
 
-  // check if transfer amount >0
-  // check if receiverAccount !== undifined
-  // check if currentAccount.balance is at least greater than transfer ampunt
-  // check if currentAccount?.username is not equal to the receiverAccount's username
+  /*
+  check if transfer amount >0
+  check if receiverAccount !== undifined
+  check if currentAccount.balance is at least greater than transfer ampunt
+  check if currentAccount?.username is not equal to the receiverAccount's username
+  */
+
   if (
     amount > 0 &&
     receiverAccount &&
@@ -526,12 +529,16 @@ btnSort.addEventListener('click', function (e) {
   updateChartConfig(movsChart, currentAccount);
 });
 /////////////////////////////////////////////////
+/*
+TODO: IMPLEMENT LOCAL STORAGE
 
-// TODO: IMPLEMENT LOCAL STORAGE, CREATE ACCOUNT (INITIAL DEPOSIT),ACCOUNT CHART
-// ACCOUNT CHART (done)
+*/
 
-// NEXT: CREATE ACCOUNT FEATURE
-// 1. Generate dynamic user data for accounts object
+/*
+TODO: CREATE ACCOUNT (INITIAL DEPOSIT)
+NEXT: CREATE ACCOUNT FEATURE
+1. Generate dynamic user data for accounts object
+*/
 
 // create new user account function
 const createAccount = function (e) {
@@ -545,9 +552,12 @@ const createAccount = function (e) {
   // check if form is empty ? return
   if (!userName || !userPin || !initialDeposit) return;
 
-  // check if names in array is at least two
-  //check if length of pin is 4 exactly
-  // check if initial deposit amount is at least 100
+  /*
+  check if names in array is at least two
+  check if length of pin is 4 exactly
+  check if initial deposit amount is at least 100
+  */
+
   if (
     userName.split(' ').length >= 2 &&
     userPin.length === 4 &&
