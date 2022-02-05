@@ -638,6 +638,9 @@ const createAccount = function (e) {
     createUser2(newAccounts);
 
     console.log(newAccounts);
+
+    // clear current account object
+    account = {};
   }
 };
 
