@@ -112,9 +112,6 @@ const inputForm = document.querySelector('.form--loan');
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-<<<<<<< HEAD
-// TODO: ACCOUNT CHART
-=======
 // LECTURES
 
 const currencies = new Map([
@@ -123,7 +120,6 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
   ['GHS', 'Ghana Cedis'],
 ]);
->>>>>>> parent of 4b631e9 (refactor code)
 
 // create chart label
 const createChartLabel = function (account) {
@@ -224,16 +220,9 @@ const displayMovement = function (account, sort = false) {
     const movementType = mov > 0 ? 'deposit' : 'withdrawal';
     console.log(currentAccount);
 
-<<<<<<< HEAD
-    /*
-   TODO: IMPLEMENT DYNAMIC DATES
-   */
-    // loop through movementsDates array
-=======
     // TODO:IMPLEMENT DYNAMIC DATES
 
     // loop through static dates array
->>>>>>> parent of 4b631e9 (refactor code)
     const date = new Date(account.movementsDates[index]);
     const displayDate = formatMovementsDates(date, account.locale);
 
@@ -486,16 +475,6 @@ btnTransfer.addEventListener('click', function (e) {
   );
   const amount = +inputTransferAmount.value;
 
-<<<<<<< HEAD
-  /*
-  check if transfer amount >0
-  check if receiverAccount !== undifined
-  check if currentAccount.balance is at least greater than transfer ampunt
-  check if currentAccount?.username is not equal to the receiverAccount's username
-  */
-
-=======
->>>>>>> parent of 4b631e9 (refactor code)
   if (
     amount > 0 &&
     receiverAccount &&
@@ -609,18 +588,10 @@ TODO: IMPLEMENT LOCAL STORAGE
 
 */
 
-<<<<<<< HEAD
-/*
-TODO: CREATE ACCOUNT (INITIAL DEPOSIT)
-NEXT: CREATE ACCOUNT FEATURE
-1. Generate dynamic user data for accounts object
-*/
-=======
 let account = {};
 const newAccounts = [];
 // NEXT: CREATE ACCOUNT FEATURE
 // 1. Generate dynamic user data for accounts object
->>>>>>> parent of 4b631e9 (refactor code)
 
 const accountForm = document.querySelector('#account-form');
 
@@ -635,15 +606,6 @@ const createAccount = function (e) {
   // check if form is empty ? return
   if (!userName || !userPin || !initialDeposit) return;
 
-<<<<<<< HEAD
-  /*
-  check if names in array is at least two
-  check if length of pin is 4 exactly
-  check if initial deposit amount is at least 100
-  */
-
-=======
->>>>>>> parent of 4b631e9 (refactor code)
   if (
     userName.split(' ').length >= 2 &&
     userPin.length === 4 &&
